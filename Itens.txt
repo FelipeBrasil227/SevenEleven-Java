@@ -1,0 +1,5 @@
+1;2.00;Agua
+2;5.00;Refrigerante
+3;7.00;Arroz
+4;8.00;Carne
+5;10.00;Feijao
