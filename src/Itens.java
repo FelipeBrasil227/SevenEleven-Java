@@ -5,10 +5,11 @@ public class Itens{
     private int quantidade = 0;
     private String categoria;
 
-    public Itens(int id, double preco, String produtoNome){
+    public Itens(int id, double preco, String produtoNome, int quantidade){
         this.id = id;
         this.preco = preco;
         this.produtoNome = produtoNome;
+        this.quantidade = quantidade;
     }
     public int getId(){
         return id;
@@ -36,6 +37,9 @@ public class Itens{
     }
     public void setCategoria(String categoria){
         this.categoria = categoria;
+    }
+    public void setQuantidade(int quantidade){
+        this.quantidade = quantidade;
     }
     public int mostrarProdutos(int quantidade){
         return quantidade++;

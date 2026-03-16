@@ -1,0 +1,7 @@
+*********** Seven Eleven Recibo ***********
+Refrigerante -R$ 5.0
+Carne -R$ 8.0
+Feijao -R$ 10.0
+------------------------------------------
+Total: R$ 23.00
+Muito Obrigado! Data16/03/2026 17:07:47
