@@ -1,5 +1,6 @@
-1;2.00;Agua
-2;5.00;Refrigerante
-3;7.00;Arroz
-4;8.00;Carne
-5;10.00;Feijao
+1;0.50;Sacola;10000
+2;2.00;Agua;3
+3;5.00;Refrigerante;4
+4;7.00;Arroz;3
+5;8.00;Carne;21
+6;10.00;Feijao;2

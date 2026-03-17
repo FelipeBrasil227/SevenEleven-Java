@@ -1,99 +1,183 @@
-//import java.util.Date;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+//Aunticar o pagamento do cliente, dar o troco e finalizar a venda (Por emquanto só no dinheiro)
+//Concluindo a compra mostra a tela no console tb
+//Depois se possivel tentar fazer um integracao com alguma api de pagamento(Se for de graca)
+//Fazer a interface do programa
+//Reduzir linhas de codigo, e fazer funcoes em outras classes para encurtar o codigo
 
 
 public class App {
     public static void main(String[] args) throws Exception {
-        Scanner sc = new Scanner(System.in);
         ArrayList <Itens> estoque = new ArrayList<>();
+        ArrayList <Itens> carrinho = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
         Menu menu = new Menu();
-        //Date date = new Date();
 
-            Funcionario f1 = new Funcionario("Akira", "Akira123");
-            Funcionario f2 = new Funcionario("Tanaka", "Tanaka123");
-            boolean autenticado = false;
-            System.out.println(" \n  Bem vindo ao Seven Eleven \n");
-                int t = 3; // número de tentativas
-        
+        LocalDateTime agora = LocalDateTime.now(); //Data e Hora de agora
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"); //Formata a Data e Hora para esse formato á esquerda
+        String dataFormatada = agora.format(formatter);
+        System.out.println("\n "+ dataFormatada);
 
-       
-        do {
-            System.out.print("Id: ");
-            String id = sc.nextLine();
-            System.out.print("Senha: ");
-            String senha = sc.nextLine();
+        ArrayList<Funcionario> equipe = new ArrayList<>(); // Cadastro de Funcionarios
+            equipe.add(new Funcionario("Akira","Akir4","Akira123"));
+            equipe.add(new Funcionario("Tanaka","Tanak4","Tanaka123"));
+            equipe.add(new Funcionario("Felipe","Fel1pe","Felipe123"));
+            equipe.add(new Funcionario("João Paulo", "Nyan", "Nyan123"));
+            equipe.add(new Funcionario("Pedro", "Pedrini", "Petro123"));
 
-            if (f1.AutenticarId(id) && f1.AutenticarSenha(senha)){
-                autenticado = true;
-            }else if(f2.AutenticarId(id) && f2.AutenticarSenha(senha)){
-                autenticado = true;
-            }else{
-                    t--; // decrementa tentativas
-                    System.out.println("Credencial Incorreta, Tentativas restantes: " + t);
-                if (t==0) {
-                    //Finaliza o Programa, caso erre as credenciais
-                    System.out.println("Máximo de Tentativas Inseridas");
-                    System.exit(0);
-                }
-            }
-
-    
-    }while(autenticado!=true);
-        int escolha;
-        //do{
-        //Mostra o Menu
-        menu.exibirMenu();
-
-        escolha = sc.nextInt();
-        //Opcoes
-        menu.mostrarOpcoes(escolha);
-        System.out.println("Mostrando estoque");
-        menu.mostrarEstoque(estoque);
-        
-
-       
-        
-        
-            try{
-            //Caminho
-            File arquivo = new File("Itens.txt");
+        try{
+            File arquivo = new File("Itens.txt"); //Caminho do Arquivo txt
             Scanner leitor = new Scanner(arquivo);
-            //Le o aquivo por linha
-
-        while (leitor.hasNextLine()) {
+        while (leitor.hasNextLine()) { //Le o aquivo por linha
             String linha = leitor.nextLine();
-                
-            //Coloca espaco aonde tiver ;
-
-            String[]dados = linha.split(";");
-
+            
+            if(linha.isEmpty()){
+                continue;
+            }
+            //Usar depois no Import Date
+            String[]dados = linha.split(";"); //Coloca espaco aonde tiver ";"
+            
+            if(dados.length < 4){
+                System.out.println("Linha ignorada (formato inválido): " + linha);
+            }
             // 4. Converte os textos para os tipos certos
-            int id = Integer.parseInt(dados[0]);
+            int id1 = Integer.parseInt(dados[0]);
             double preco = Double.parseDouble(dados[1]);
             String nome = dados[2];
+            int quantidade = Integer.parseInt(dados[3].trim());
 
-            //Add no ArrayList
-            estoque.add(new Itens(id, preco, nome));
+            estoque.add(new Itens(id1, preco, nome, quantidade)); //Adiciona no ArrayList
         }
             leitor.close();
-            System.out.println("Estoque carregado com sucesso");
       
-    } catch(FileNotFoundException e){
-            System.out.println("Erro: Arquivo não encontrado");
+    }catch(FileNotFoundException e){
+        System.out.println("Erro: Arquivo não encontrado");
     }
+        boolean autenticado = false;
+        System.out.println(" \n  Login: \n");
+
         
-
-    //}while(escolha != 0);
-
-    
+            int t = 2; // Número de tentativas = 2 = 3
 
 
-    
+            do{ //Login, Se errar 3 vezes a senha reseta o sistema.
+                
+                System.out.print("Id: ");
+                String id = sc.nextLine();
+                System.out.print("Senha: ");
+                String senha = sc.nextLine();   
+                for(Funcionario f : equipe){
+                    if(f.getId().equals(id) && (f.getSenha().equals(senha))){
+                        System.out.println();
+                        System.out.println("Bem-Vindo " + f.getNome() + "!");
+                        autenticado = true;
+                        break; //Para o looping Assim que encontra o usuario
+                    }
+                }
+                    //System.out.println(t--); // decrementa tentativas 
+                    if(t<0){
+                        System.out.println("Maximo de Tentativas alcançado");
+                        System.exit(0);
+                    }
+            }while(autenticado!=true);
 
+        int escolha = -1;
+        int escolhaProduto;
+        while (escolha!=0) {
 
+            menu.exibirMenu(); //Mostra o Menu
+            escolha = sc.nextInt();
+
+            switch (escolha) {
+                case 1:
+                    System.out.println("Numero do Produto: (ou -1 para sair");
+                    
+                    do{
+
+                    
+                        System.out.println("\n--- ESTOQUE ---");
+                        System.out.println("Id -  Produto - Preço");
+                        System.out.println("Numero do Produto: (ou -1 para sair): ");
+                        for (int i = 0; i < estoque.size(); i++) {
+                            Itens p = estoque.get(i);
+                            System.out.print("0"+ i + " - ");
+                            System.out.printf("%-20s | R$ %8.2f%n", p.getProdutoNome(), p.getPreco());
+                        }
+                        escolhaProduto = sc.nextInt();
+                       
+
+                    if(escolhaProduto>=0 && escolhaProduto <estoque.size()){
+                        Itens escolhido = estoque.get(escolhaProduto);
+
+                        if(escolhido.getQuantidade() > 0){
+                            carrinho.add(escolhido); // adiciona a referência do produto ao carrinho
+
+                            escolhido.setQuantidade(escolhido.getQuantidade() - 1);
+                            System.out.println(escolhido.getProdutoNome() + " adicionado ao carrinho");
+
+                        }else{
+                            System.out.println("Produto sem estoque");
+                        }
+                    }else if(escolhaProduto!=1){
+                        System.out.println("Opção Invalida.");
+                    }
+                    
+                    }while (escolhaProduto !=-1);
+                    //carrinho = 
+                    break;
+                case 2:
+                    System.out.println("\n---Finalizando a Compra..."); //Pega o carrinho, faz o total, forma de pagamento e se possivel fazer um arquivo txt do recebo
+                    
+                    if(carrinho.isEmpty()){
+                        System.out.println("O carrinho esta vazio! Adicione itens antes de finalizar.");
+                    }
+                    double total = 0;
+                    for (int i = 0; i < carrinho.size(); i++) {
+                            Itens c = carrinho.get(i);
+                            System.out.printf("%02d - %-20s | R$ %8.2f%n",i, c.getProdutoNome(), c.getPreco());
+                            total += c.getPreco();
+                            
+
+                        }
+                            System.out.println("------------------------------------------");
+                            System.out.printf("TOTAL DA COMPRA:          | R$ %8.2f%n", total);
+                        try (java.io.FileWriter escritor = new java.io.FileWriter("Recibos.txt")){
+                            
+                            escritor.write("*********** Seven Eleven Recibo ***********\n");
+                            for(Itens item : carrinho){
+                                escritor.write(item.getProdutoNome() + " -R$ " + item.getPreco() + "\n");
+                            }
+
+                            escritor.write("------------------------------------------\n");
+                            escritor.write("Total: R$ " + String.format("%.2f", total) + "\n");
+                            escritor.write("Muito Obrigado! ");
+                            escritor.write("Data" + dataFormatada + "\n");
+                            System.out.println();
+                            System.out.println("Recibo gerado com sucesso!");
+                        } catch (java.io.IOException e) {
+                            System.out.println("Erro ao gerar recibo." + e.getMessage());
+                        }
+
+                        carrinho.clear();
+
+                    break;
+                case 0:
+                    System.out.println("Saindo...");
+                    System.exit(0);
+                
+                default:
+                    System.out.println("Opção Invalida");
+                    
+                    break;
+            }
+        }
     sc.close();
     }
 }
+
