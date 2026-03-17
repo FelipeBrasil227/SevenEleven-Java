@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -10,7 +11,6 @@ import java.time.format.DateTimeFormatter;
 //Depois se possivel tentar fazer um integracao com alguma api de pagamento(Se for de graca)
 //Fazer a interface do programa
 //Reduzir linhas de codigo, e fazer funcoes em outras classes para encurtar o codigo
-
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -25,12 +25,8 @@ public class App {
         System.out.println("\n "+ dataFormatada);
 
         ArrayList<Funcionario> equipe = new ArrayList<>(); // Cadastro de Funcionarios
-            equipe.add(new Funcionario("Akira","Akir4","Akira123"));
-            equipe.add(new Funcionario("Tanaka","Tanak4","Tanaka123"));
-            equipe.add(new Funcionario("Felipe","Fel1pe","Felipe123"));
-            equipe.add(new Funcionario("João Paulo", "Nyan", "Nyan123"));
-            equipe.add(new Funcionario("Pedro", "Pedrini", "Petro123"));
-
+            Funcionario.iniciarEquipe(equipe);
+            
         try{
             File arquivo = new File("Itens.txt"); //Caminho do Arquivo txt
             Scanner leitor = new Scanner(arquivo);
@@ -59,33 +55,23 @@ public class App {
     }catch(FileNotFoundException e){
         System.out.println("Erro: Arquivo não encontrado");
     }
-        boolean autenticado = false;
-        System.out.println(" \n  Login: \n");
-
-        
-            int t = 2; // Número de tentativas = 2 = 3
-
-
-            do{ //Login, Se errar 3 vezes a senha reseta o sistema.
+       
+            
                 
-                System.out.print("Id: ");
-                String id = sc.nextLine();
-                System.out.print("Senha: ");
-                String senha = sc.nextLine();   
-                for(Funcionario f : equipe){
+
+                Funcionario.CapturaTeclado(equipe);
+                
+                /*for(Funcionario f : equipe){
                     if(f.getId().equals(id) && (f.getSenha().equals(senha))){
                         System.out.println();
                         System.out.println("Bem-Vindo " + f.getNome() + "!");
                         autenticado = true;
                         break; //Para o looping Assim que encontra o usuario
                     }
-                }
+                }/* */
                     //System.out.println(t--); // decrementa tentativas 
-                    if(t<0){
-                        System.out.println("Maximo de Tentativas alcançado");
-                        System.exit(0);
-                    }
-            }while(autenticado!=true);
+                    
+            
 
         int escolha = -1;
         int escolhaProduto;
@@ -138,11 +124,11 @@ public class App {
                         System.out.println("O carrinho esta vazio! Adicione itens antes de finalizar.");
                     }
                     double total = 0;
-                    for (int i = 0; i < carrinho.size(); i++) {
+                    for (int i = 0; i < carrinho.size(); i++) {                       
+                            
                             Itens c = carrinho.get(i);
                             System.out.printf("%02d - %-20s | R$ %8.2f%n",i, c.getProdutoNome(), c.getPreco());
                             total += c.getPreco();
-                            
 
                         }
                             System.out.println("------------------------------------------");
