@@ -39,6 +39,7 @@ public class Funcionario {
 
     //Adicionando um metodo para adicionar funcionarios, e autenticar id e senha
     public static void iniciarEquipe(ArrayList<Funcionario> equipe){
+        // Cadastro de Funcionarios
         equipe.add(new Funcionario("Akira","Akir4","Akira123"));
         equipe.add(new Funcionario("Tanaka","Tanak4","Tanaka123"));
         equipe.add(new Funcionario("Felipe","Fel1pe","Felipe123"));
@@ -75,9 +76,10 @@ public class Funcionario {
         // Se sair do loop, é porque as tentativas acabaram
         System.out.println("\nMáximo de tentativas alcançado. Sistema bloqueado.");
         System.exit(0);
+        sc.close();
     }
 
     
 
-    
+
     }    

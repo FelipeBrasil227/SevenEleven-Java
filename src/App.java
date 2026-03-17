@@ -55,29 +55,17 @@ public class App {
     }catch(FileNotFoundException e){
         System.out.println("Erro: Arquivo não encontrado");
     }
-       
-            
-                
+        boolean autenticado = false;        
 
-                Funcionario.CapturaTeclado(equipe);
-                
-                /*for(Funcionario f : equipe){
-                    if(f.getId().equals(id) && (f.getSenha().equals(senha))){
-                        System.out.println();
-                        System.out.println("Bem-Vindo " + f.getNome() + "!");
-                        autenticado = true;
-                        break; //Para o looping Assim que encontra o usuario
-                    }
-                }/* */
-                    //System.out.println(t--); // decrementa tentativas 
-                    
-            
+         Funcionario.CapturaTeclado(equipe); //Pega o que foi digitado, ve se tem na lista, autentifica e retorna um boleano
+        
+        menu.exibirMenu(autenticado, estoque, carrinho); // Se logado mostrar todos os metodos que se pode acessar
 
         int escolha = -1;
         int escolhaProduto;
         while (escolha!=0) {
 
-            menu.exibirMenu(); //Mostra o Menu
+     //Mostra o Menu
             escolha = sc.nextInt();
 
             switch (escolha) {
@@ -85,8 +73,6 @@ public class App {
                     System.out.println("Numero do Produto: (ou -1 para sair");
                     
                     do{
-
-                    
                         System.out.println("\n--- ESTOQUE ---");
                         System.out.println("Id -  Produto - Preço");
                         System.out.println("Numero do Produto: (ou -1 para sair): ");

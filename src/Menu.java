@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 public class Menu {
-    public void exibirMenu(){
+
+    public void exibirMenu(boolean atenticado, ArrayList <Itens> estoque, ArrayList <Itens> carrinho){
         System.out.println();
         System.out.println("    --- Menu ---");
         System.out.println("1: Mostrar Produtos e Adicionar ao Carrinho");
