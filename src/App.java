@@ -66,8 +66,10 @@ public class App {
         while (escolha!=0) {
 
      //Mostra o Menu
+            boolean contiuar = false;
+            do{
             escolha = sc.nextInt();
-
+        
             switch (escolha) {
                 case 1:
                     System.out.println("Numero do Produto: (ou -1 para sair");
@@ -104,12 +106,15 @@ public class App {
                     //carrinho = 
                     break;
                 case 2:
-                    System.out.println("\n---Finalizando a Compra..."); //Pega o carrinho, faz o total, forma de pagamento e se possivel fazer um arquivo txt do recebo
+                    System.out.println("\n---Finalizando a Compra...\n");
                     
                     if(carrinho.isEmpty()){
-                        System.out.println("O carrinho esta vazio! Adicione itens antes de finalizar.");
-                    }
-                    double total = 0;
+                        System.out.println("Notamos que o carrinho esta vazio! Adicione itens antes de finalizar.");
+                        System.out.print("Insira uma Opção do Menu novamente:");
+                        
+                        contiuar = false;
+                    } else if (contiuar==true) {
+                        double total = 0;
                     for (int i = 0; i < carrinho.size(); i++) {                       
                             
                             Itens c = carrinho.get(i);
@@ -137,18 +142,22 @@ public class App {
                         }
 
                         carrinho.clear();
+                    }
+                
+                    
 
                     break;
                 case 0:
                     System.out.println("Saindo...");
                     System.exit(0);
-                
+                break;
                 default:
                     System.out.println("Opção Invalida");
                     
                     break;
             }
-        }
+        }while(contiuar==false);
+    }
     sc.close();
     }
 }
