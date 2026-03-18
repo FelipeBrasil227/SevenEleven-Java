@@ -36,13 +36,13 @@ public class App {
             if(linha.isEmpty()){
                 continue;
             }
-            //Usar depois no Import Date
+
             String[]dados = linha.split(";"); //Coloca espaco aonde tiver ";"
             
             if(dados.length < 4){
                 System.out.println("Linha ignorada (formato inválido): " + linha);
             }
-            // 4. Converte os textos para os tipos certos
+            // Converte os textos para os tipos certos
             int id1 = Integer.parseInt(dados[0]);
             double preco = Double.parseDouble(dados[1]);
             String nome = dados[2];
@@ -111,38 +111,41 @@ public class App {
                     if(carrinho.isEmpty()){
                         System.out.println("Notamos que o carrinho esta vazio! Adicione itens antes de finalizar.");
                         System.out.print("Insira uma Opção do Menu novamente:");
-                        
                         contiuar = false;
                     } else if (contiuar==true) {
-                        double total = 0;
-                    for (int i = 0; i < carrinho.size(); i++) {                       
-                            
-                            Itens c = carrinho.get(i);
-                            System.out.printf("%02d - %-20s | R$ %8.2f%n",i, c.getProdutoNome(), c.getPreco());
-                            total += c.getPreco();
 
-                        }
-                            System.out.println("------------------------------------------");
-                            System.out.printf("TOTAL DA COMPRA:          | R$ %8.2f%n", total);
-                        try (java.io.FileWriter escritor = new java.io.FileWriter("Recibos.txt")){
-                            
-                            escritor.write("*********** Seven Eleven Recibo ***********\n");
-                            for(Itens item : carrinho){
-                                escritor.write(item.getProdutoNome() + " -R$ " + item.getPreco() + "\n");
+                        double total = 0;
+
+                        for (int i = 0; i < carrinho.size(); i++) {                       
+                                
+                                Itens c = carrinho.get(i);
+                                System.out.printf("%02d - %-20s | R$ %8.2f%n",i, c.getProdutoNome(), c.getPreco());
+                                total += c.getPreco();
+
+                            }
+                                System.out.println("------------------------------------------");
+                                System.out.printf("TOTAL DA COMPRA:          | R$ %8.2f%n", total);
+
+                            try (java.io.FileWriter escritor = new java.io.FileWriter("Recibos.txt")){
+                                
+                                escritor.write("*********** Seven Eleven Recibo ***********\n");
+
+                                for(Itens item : carrinho){
+                                    escritor.write(item.getProdutoNome() + " -R$ " + item.getPreco() + "\n");
+                                }
+
+                                escritor.write("------------------------------------------\n");
+                                escritor.write("Total: R$ " + String.format("%.2f", total) + "\n");
+                                escritor.write("Muito Obrigado! ");
+                                escritor.write("Data" + dataFormatada + "\n");
+                                System.out.println();
+                                System.out.println("Recibo gerado com sucesso!");
+                            } catch (java.io.IOException e) {
+                                System.out.println("Erro ao gerar recibo." + e.getMessage());
                             }
 
-                            escritor.write("------------------------------------------\n");
-                            escritor.write("Total: R$ " + String.format("%.2f", total) + "\n");
-                            escritor.write("Muito Obrigado! ");
-                            escritor.write("Data" + dataFormatada + "\n");
-                            System.out.println();
-                            System.out.println("Recibo gerado com sucesso!");
-                        } catch (java.io.IOException e) {
-                            System.out.println("Erro ao gerar recibo." + e.getMessage());
+                            carrinho.clear();
                         }
-
-                        carrinho.clear();
-                    }
                 
                     
 
